@@ -4,6 +4,7 @@ services:
   reverse-proxy:
     # The official v2 Traefik docker image
     image: traefik:v2.2
+    container_name: traefik
     # Enables the web UI and tells Traefik to listen to docker
     command:
       - --api.insecure=true
@@ -18,14 +19,25 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.http.routers.api.rule=Host(`traefik.antonderegt.nl`)
   postcode:
-    # A container that exposes an API to show its IP address
-    build: app
+    image: go-pc
     container_name: postcode
-    working_dir: "/go/src/app"
+    #working_dir: "/go/src/app"
     volumes:
       - ./app:/go/src/app
-    ports: 
-      - "80:80"
     labels:
-      - "traefik.http.routers.postcode.rule=Host(`postcode.localhost`)"
+      - "traefik.http.routers.postcode.rule=Host(`pc.antonderegt.nl`)"
+ #nominatim:
+    #image: nominatim
+    #container_name: nominatim
+    #ports:
+    #  - "6432:5432"
+    #  - "7070:8080"
+    #volumes:
+    #  - ~/ssd_drive/nominatim/nominatim-data/postgresdata:/var/lib/postgresql/12/main
+    #command: bash /app/start.sh
+    #restart: always
+    #labels:
+    #  - "traefik.http.routers.nominatim.rule=Host(`nominatim.antonderegt.nl`)"

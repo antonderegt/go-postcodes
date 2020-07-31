@@ -6,6 +6,7 @@ COPY . .
 RUN go get -d -v ./...
 RUN go install -v ./...
 
-EXPOSE 80
+EXPOSE 3000
 
-CMD ["app"]
+CMD ["air"]
+#CMD ["/go/bin/app"]
