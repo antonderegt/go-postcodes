@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.2
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entryPoints.http.address=:80
+      - --entryPoints.http.forwardedHeaders.insecure
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+  postcode:
+    # A container that exposes an API to show its IP address
+    build: app
+    container_name: postcode
+    working_dir: "/go/src/app"
+    volumes:
+      - ./app:/go/src/app
+    ports: 
+      - "80:80"
+    labels:
+      - "traefik.http.routers.postcode.rule=Host(`postcode.localhost`)"

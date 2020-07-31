@@ -6,8 +6,8 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("Hello there!")
+		c.Send("Hello Atnon!")
 	})
 
-	app.Listen(3000)
+	app.Listen(80)
 }
