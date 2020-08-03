@@ -9,4 +9,3 @@ RUN go install -v ./...
 EXPOSE 3000
 
 CMD ["air"]
-#CMD ["/go/bin/app"]
