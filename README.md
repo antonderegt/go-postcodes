@@ -8,6 +8,7 @@ git clone https://github.com/antonderegt/go-postcodes.git
 ## Build for Developement (MacBook)
 The following command will build the container and hot reload on changes.
 ```
+cd app
 docker run -it --rm -w "/go/src/app" -v $(pwd):/go/src/app -p 3000:3000 cosmtrek/air
 ```
 
