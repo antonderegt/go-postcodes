@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/antonderegt/go-postcodes/app/book"
+	"github.com/antonderegt/book"
 	"github.com/gofiber/fiber"
 )
 
