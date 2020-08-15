@@ -1,5 +1,28 @@
 # GO Postcodes
 
+## How To Use
+
+### Get Lat + Lon
+**Endpoint:** api/latlon
+
+**Parameters:** street, num, city
+
+**Example:** http://localhost:3000/api/latlon?street=damrak&num=1&city=amsterdam
+
+### Get Postcode
+**Endpoint:** api/postcode
+
+**Parameters:** street, num, city
+
+**Example:** http://localhost:3000/api/postcode?street=damrak&num=1&city=amsterdam
+
+### Check Entered Address
+**Endpoint:** api/address
+
+**Parameters:** street, num, city
+
+**Example:** http://localhost:3000/api/address?street=damrak&num=1&city=amsterdam
+
 ## Install
 ```
 git clone https://github.com/antonderegt/go-postcodes.git
