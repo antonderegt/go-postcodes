@@ -68,7 +68,7 @@ func GetLatLon(c *fiber.Ctx) {
 	getJson(queryAddress, &res)
 
 	// Send response
-	var response = "{lat: " + res[0].Lat + ", lon: " + res[0].Lon + "}"
+	var response = `{"lat": "` + res[0].Lat + `", "lon": "` + res[0].Lon + `"}`
 	c.Send(response)
 }
 
@@ -86,6 +86,6 @@ func GetPostcode(c *fiber.Ctx) {
 	getJson(queryAddress, &res)
 
 	// Send response
-	var response = "{postcode: " + res[0].Address.Postcode + "}"
+	var response = `{"postcode": "` + res[0].Address.Postcode + `"}`
 	c.Send(response)
 }
