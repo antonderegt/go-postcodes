@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/antonderegt/book"
+	"github.com/antonderegt/postcode"
 	"github.com/gofiber/fiber"
 )
 
@@ -12,8 +12,9 @@ func helloWorld(c *fiber.Ctx) {
 func setupRoutes(app *fiber.App) {
 	app.Get("/", helloWorld)
 
-	app.Get("/api/address", book.ReturnAddress)
-	app.Get("/api/postcode", book.ConsumeAPI)
+	app.Get("/api/address", postcode.ReturnAddress)
+	app.Get("/api/latlon", postcode.GetLatLon)
+	app.Get("/api/postcode", postcode.GetPostcode)
 }
 
 func main() {
