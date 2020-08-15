@@ -14,6 +14,7 @@ docker run -it --rm -w "/go/src/app" -v $(pwd):/go/src/app -p 3000:3000 cosmtrek
 
 ## Build and run for ARM device
 ```
+cd app/
 sudo docker build -t go-pc .
 sudo docker run -d --rm -p 3000:3000 go-pc air
 ```
