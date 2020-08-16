@@ -33,11 +33,16 @@ type Address struct {
 	Address AddressDetails `json:"address"`
 }
 
-func ReturnAddress(c *fiber.Ctx) {
+func GetQueryAddress(c *fiber.Ctx) *QueryAddress {
 	var address = new(QueryAddress)
 	if err := c.QueryParser(address); err != nil {
 		c.Send(err)
 	}
+	return address
+}
+
+func ReturnAddress(c *fiber.Ctx) {
+	var address = GetQueryAddress(c)
 	c.Send("Address: ", address.Street, " ", address.Number, ", ", address.City)
 }
 
@@ -56,10 +61,7 @@ func getJson(url string, target interface{}) error {
 
 func GetLatLon(c *fiber.Ctx) {
 	// Extract address from query
-	var address = new(QueryAddress)
-	if err := c.QueryParser(address); err != nil {
-		c.Send(err)
-	}
+	var address = GetQueryAddress(c)
 
 	// GET request to nominatim
 	var query = address.Street + " " + address.Number + ", " + address.City
@@ -74,10 +76,7 @@ func GetLatLon(c *fiber.Ctx) {
 
 func GetPostcode(c *fiber.Ctx) {
 	// Extract address from query
-	var address = new(QueryAddress)
-	if err := c.QueryParser(address); err != nil {
-		c.Send(err)
-	}
+	var address = GetQueryAddress(c)
 
 	// GET request to nominatim
 	var query = address.Street + " " + address.Number + ", " + address.City
