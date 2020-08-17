@@ -1,6 +1,14 @@
 # GO Postcodes
 
 ## How To Use
+Before you can use any of the interesting endpoints you need to login. The jwt token you receive should be send with the next request. 
+
+### Login
+**Endpoint:** login
+
+**Parameters:** user, pass
+
+**Example:** http://localhost:3000/login?user=john&pass=doe
 
 ### Get Lat + Lon
 **Endpoint:** api/latlon
