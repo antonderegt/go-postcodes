@@ -34,15 +34,15 @@ type Address struct {
 }
 
 func GetQueryAddress(c *fiber.Ctx) *QueryAddress {
-	var address = new(QueryAddress)
+	address := new(QueryAddress)
 	if err := c.QueryParser(address); err != nil {
-		c.Send(err)
+		c.Status(500).Send(err)
 	}
 	return address
 }
 
 func ReturnAddress(c *fiber.Ctx) {
-	var address = GetQueryAddress(c)
+	address := GetQueryAddress(c)
 	c.Send("Address: ", address.Street, " ", address.Number, ", ", address.City)
 }
 
@@ -61,30 +61,38 @@ func getJson(url string, target interface{}) error {
 
 func GetLatLon(c *fiber.Ctx) {
 	// Extract address from query
-	var address = GetQueryAddress(c)
+	address := GetQueryAddress(c)
 
 	// GET request to nominatim
-	var query = address.Street + " " + address.Number + ", " + address.City
-	var queryAddress = "http://77.248.22.231:7070/search/" + query + "?format=json&countrycodes=NL&limit=1"
+	query := address.Street + " " + address.Number + ", " + address.City
+	queryAddress := "http://77.248.22.231:7070/search/" + query + "?format=json&countrycodes=NL&limit=1"
+
 	var res []LatLon
-	getJson(queryAddress, &res)
+	err := getJson(queryAddress, &res)
+	if err != nil {
+		c.Status(500).Send(err)
+	}
 
 	// Send response
-	var response = `{"lat": "` + res[0].Lat + `", "lon": "` + res[0].Lon + `"}`
+	response := `{"lat": "` + res[0].Lat + `", "lon": "` + res[0].Lon + `"}`
 	c.Send(response)
 }
 
 func GetPostcode(c *fiber.Ctx) {
 	// Extract address from query
-	var address = GetQueryAddress(c)
+	address := GetQueryAddress(c)
 
 	// GET request to nominatim
-	var query = address.Street + " " + address.Number + ", " + address.City
-	var queryAddress = "http://77.248.22.231:7070/search/" + query + "?format=json&addressdetails=1&countrycodes=NL&limit=1"
+	query := address.Street + " " + address.Number + ", " + address.City
+	queryAddress := "http://77.248.22.231:7070/search/" + query + "?format=json&addressdetails=1&countrycodes=NL&limit=1"
+
 	var res []Address
-	getJson(queryAddress, &res)
+	err := getJson(queryAddress, &res)
+	if err != nil {
+		c.Status(500).Send(err)
+	}
 
 	// Send response
-	var response = `{"postcode": "` + res[0].Address.Postcode + `"}`
+	response := `{"postcode": "` + res[0].Address.Postcode + `"}`
 	c.Send(response)
 }
