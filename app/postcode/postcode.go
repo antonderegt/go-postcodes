@@ -12,6 +12,7 @@ type QueryAddress struct {
 	Street string `query:"street"`
 	Number string `query:"num"`
 	City   string `query:"city"`
+	Postcode   string `query:"postcode"`
 }
 
 type LatLon struct {
@@ -25,7 +26,7 @@ type AddressDetails struct {
 	City        string `json:"city"`
 	State       string `json:"state"`
 	Country     string `json:"country"`
-	Postcode    string `json:"postcode"`
+	Postcode    string `json:"postalcode"`
 	CountryCode string `json:"country_code"`
 }
 
@@ -93,6 +94,14 @@ func GetPostcode(c *fiber.Ctx) {
 	}
 
 	// Send response
-	response := `{"postcode": "` + res[0].Address.Postcode + `"}`
-	c.Send(response)
+	if err := c.JSON(fiber.Map{
+		"postcode": res[0].Address.Postcode,
+		"street": res[0].Address.Road,
+		"number": res[0].Address.Number,
+		"city": res[0].Address.City,
+		"state": res[0].Address.State,
+	}); err != nil {
+		c.Status(500).Send(err)
+		return
+	}
 }
