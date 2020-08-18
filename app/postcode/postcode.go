@@ -75,7 +75,7 @@ func GetLatLon(c *fiber.Ctx) {
 	address := GetQueryAddress(c)
 
 	// GET request to nominatim
-	query := address.Street + " " + address.Number + ", " + address.City + ", " + address.Postcode
+	query := address.Postcode + " " + address.Street + " " + address.Number + " " + address.City
 	queryAddress := "http://77.248.22.231:7070/search/" + query + "?format=json&countrycodes=NL&limit=1"
 
 	var res []LatLon
@@ -99,7 +99,7 @@ func GetPostcode(c *fiber.Ctx) {
 	address := GetQueryAddress(c)
 
 	// GET request to nominatim
-	query := address.Street + " " + address.Number + ", " + address.City + ", postcode=" + address.Postcode
+	query := address.Postcode + " " + address.Street + " " + address.Number + " " + address.City
 	queryAddress := "http://77.248.22.231:7070/search/" + query + "?format=json&addressdetails=1&countrycodes=NL&limit=1"
 
 	var res []Address
