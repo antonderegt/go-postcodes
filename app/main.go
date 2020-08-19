@@ -14,7 +14,7 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/login", login)
 
 	// Unauthenticated route
-	app.Get("/api/address", postcode.ReturnAddress)
+	app.Get("/api/check/address", postcode.ReturnAddress)
 
 	// JWT Middleware
 	app.Use(jwtware.New(jwtware.Config{
@@ -24,7 +24,7 @@ func setupRoutes(app *fiber.App) {
 	// Restricted Routes
 	app.Get("/restricted", restricted)
 	app.Get("/api/latlon", postcode.GetLatLon)
-	app.Get("/api/postcode", postcode.GetPostcode)
+	app.Get("/api/address", postcode.GetFullAddress)
 }
 
 func login(c *fiber.Ctx) {

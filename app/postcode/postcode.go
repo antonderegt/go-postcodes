@@ -98,7 +98,7 @@ func GetLatLon(c *fiber.Ctx) {
 	}
 }
 
-func GetPostcode(c *fiber.Ctx) {
+func GetFullAddress(c *fiber.Ctx) {
 	// Extract address from query
 	address := GetQueryAddress(c)
 
