@@ -75,13 +75,17 @@ func GetLatLon(c *fiber.Ctx) {
 	address := GetQueryAddress(c)
 
 	// GET request to nominatim
-	query := address.Postcode + " " + address.Street + " " + address.Number + " " + address.City
-	queryAddress := "http://77.248.22.231:7070/search/" + query + "?format=json&countrycodes=NL&limit=1"
+	query := "street=" + address.Number + "%20" + address.Street + "&city=" + address.City + "&postalcode=" + address.Postcode
+	queryAddress := "http://77.248.22.231:7070/search?" + query + "&format=json&limit=1"
 
 	var res []LatLon
 	err := getJson(queryAddress, &res)
 	if err != nil {
 		c.Status(500).Send(err)
+	}
+	if len(res) == 0 {
+		c.Status(500).Send("No results")
+		return
 	}
 
 	// Send response
@@ -99,13 +103,18 @@ func GetPostcode(c *fiber.Ctx) {
 	address := GetQueryAddress(c)
 
 	// GET request to nominatim
-	query := address.Postcode + " " + address.Street + " " + address.Number + " " + address.City
-	queryAddress := "http://77.248.22.231:7070/search/" + query + "?format=json&addressdetails=1&countrycodes=NL&limit=1"
+	query := "street=" + address.Number + "%20" + address.Street + "&city=" + address.City + "&postalcode=" + address.Postcode
+	queryAddress := "http://77.248.22.231:7070/search?" + query + "&format=json&limit=1&addressdetails=1"
 
 	var res []Address
 	err := getJson(queryAddress, &res)
 	if err != nil {
 		c.Status(500).Send(err)
+		return
+	}
+	if len(res) == 0 {
+		c.Status(500).Send("No results")
+		return
 	}
 
 	// Send response
