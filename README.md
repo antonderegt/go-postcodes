@@ -4,32 +4,39 @@
 Before you can use any of the interesting endpoints you need to login. The jwt token you receive should be send with the next request. 
 
 ### Login
-**Endpoint:** login
+**Endpoint:** (POST) /login
 
 **Parameters:** user, pass
 
-**Example:** http://localhost:3000/login?user=john&pass=doe
+**Example:** curl -d "user=john&pass=doe" http://localhost:3000/login
 
-### Get Lat + Lon
-**Endpoint:** api/latlon
+### Get Latitude and Longitude
+**Endpoint:** (GET) /api/latlon
 
-**Parameters:** street, num, city
+**Parameters:** street, num, city, postcode (use any combination that makes sense)
 
-**Example:** http://localhost:3000/api/latlon?street=damrak&num=1&city=amsterdam
+**Headers:** Authorization: Bearer \<ACCESS_TOKEN\>
 
-### Get Postcode
-**Endpoint:** api/postcode
+**Example:** curl -H "Authorization: Bearer \<ACCESS_TOKEN\>" http://localhost:3000/api/latlon?street=damrak&num=1&city=amsterdam
 
-**Parameters:** street, num, city
+### Get Address Details
+**Endpoint:** (GET) /api/address
 
-**Example:** http://localhost:3000/api/postcode?street=damrak&num=1&city=amsterdam
+**Parameters:** street, num, city, postalcode (use any combination that makes sense)
+
+**Headers:** Authorization: Bearer \<ACCESS_TOKEN\>
+
+**Example:** curl -H "Authorization: Bearer \<ACCESS_TOKEN\>" http://localhost:3000/api/postcode?street=damrak&num=1&city=amsterdam
 
 ### Check Entered Address
-**Endpoint:** api/address
+**Endpoint:** (GET) /api/check/address
 
 **Parameters:** street, num, city
 
-**Example:** http://localhost:3000/api/address?street=damrak&num=1&city=amsterdam
+**Example:** curl http://localhost:3000/api/address?street=damrak&num=1&city=amsterdam
+
+## Prerequisites
+A running [Nominatim](https://nominatim.openstreetmap.org/ui/search.html) database
 
 ## Install
 ```
