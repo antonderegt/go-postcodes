@@ -10,6 +10,8 @@ Before you can use any of the interesting endpoints you need to login. The jwt t
 
 **Example:** curl -d "user=john&pass=doe" http://localhost:3000/login
 
+The returned access token is valid for 72 hours.
+
 ### Get Latitude and Longitude
 **Endpoint:** (GET) /api/latlon
 
