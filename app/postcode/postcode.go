@@ -3,9 +3,11 @@ package postcode
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber"
+	"github.com/joho/godotenv"
 )
 
 type QueryAddress struct {
@@ -70,13 +72,24 @@ func getJson(url string, target interface{}) error {
 	return json.NewDecoder(r.Body).Decode(target)
 }
 
+func goDotEnvVariable(key string) string {
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		println("Error loading .env file")
+	}
+
+	return os.Getenv(key)
+}
+
 func GetLatLon(c *fiber.Ctx) {
 	// Extract address from query
 	address := GetQueryAddress(c)
 
 	// GET request to nominatim
 	query := "street=" + address.Number + "%20" + address.Street + "&city=" + address.City + "&postalcode=" + address.Postcode
-	queryAddress := "http://77.248.22.231:7070/search?" + query + "&format=json&limit=1"
+	api := goDotEnvVariable("API_ADDRESS")
+	queryAddress := api + "/search?" + query + "&format=json&limit=1"
 
 	var res []LatLon
 	err := getJson(queryAddress, &res)
@@ -104,7 +117,8 @@ func GetFullAddress(c *fiber.Ctx) {
 
 	// GET request to nominatim
 	query := "street=" + address.Number + "%20" + address.Street + "&city=" + address.City + "&postalcode=" + address.Postcode
-	queryAddress := "http://77.248.22.231:7070/search?" + query + "&format=json&limit=1&addressdetails=1"
+	api := goDotEnvVariable("API_ADDRESS")
+	queryAddress := api + "/search?" + query + "&format=json&limit=1&addressdetails=1"
 
 	var res []Address
 	err := getJson(queryAddress, &res)
